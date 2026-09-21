@@ -33,7 +33,11 @@
   #stage.shake{animation:shake .45s}
   @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
   .abs{position:absolute}
-  #window{left:60%;top:5%;width:15%;height:25%;background:#101a45;border:1cqw solid #c9a06a;border-radius:1.5cqw;overflow:hidden}
+  #clock{left:57%;top:5%;width:10cqw;text-align:center}
+  #clock svg{width:100%;display:block;filter:drop-shadow(0 .4cqw .3cqw rgba(0,0,0,.3))}
+  #hHand,#mHand{transform-origin:50px 50px}
+  #clockTxt{display:block;width:fit-content;margin:.6cqw auto 0;padding:.1cqw 1cqw;font-size:2.3cqw;font-weight:900;color:#fff;background:rgba(0,0,0,.4);border-radius:999px;font-variant-numeric:tabular-nums}
+  #window{left:70%;top:5%;width:11.5%;height:25%;background:#101a45;border:1cqw solid #c9a06a;border-radius:1.5cqw;overflow:hidden}
   #sky{position:absolute;inset:0;background:linear-gradient(#101a45,#24306b)}
   #moon{position:absolute;font-size:4.6cqw;line-height:1;transform:translate(-50%,-50%);filter:drop-shadow(0 0 1cqw rgba(255,240,170,.7))}
   .star{position:absolute;font-style:normal;font-size:1.5cqw;color:#fff6c8;animation:twinkle 1.6s infinite alternate}
@@ -59,7 +63,7 @@
   .puff{display:none}
   [data-state=watch] .puff,[data-state=scold] .puff{display:inline}
   #eyeglow{display:none}
-  #bubble{left:40%;top:4%;max-width:19%;background:#fff;color:var(--ink);border-radius:2cqw;padding:1cqw 2cqw;font-size:2.6cqw;font-weight:800;box-shadow:0 .4cqw 0 rgba(0,0,0,.15)}
+  #bubble{left:40%;top:4%;max-width:15.5%;background:#fff;color:var(--ink);border-radius:2cqw;padding:1cqw 2cqw;font-size:2.6cqw;font-weight:800;box-shadow:0 .4cqw 0 rgba(0,0,0,.15)}
   #bubble.warn{background:#fff3bf}
   #bubble.watch{background:#ffc9c9;color:#b02525}
   #bubble.scold{background:#ff8787;color:#fff}
@@ -178,6 +182,19 @@
   </div>
 
   <div id="stage" data-state="sleep">
+    <div id="clock" class="abs">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" fill="#fff8e8" stroke="#8a5a3c" stroke-width="7"/>
+        <g stroke="#2b2d4a" stroke-linecap="round">
+          <path d="M50 11 V19 M89 50 H81 M50 89 V81 M11 50 H19" stroke-width="5"/>
+          <path d="M69.5 16.2 L65.5 23.1 M83.8 30.5 L76.9 34.5 M83.8 69.5 L76.9 65.5 M69.5 83.8 L65.5 76.9 M30.5 83.8 L34.5 76.9 M16.2 69.5 L23.1 65.5 M16.2 30.5 L23.1 34.5 M30.5 16.2 L34.5 23.1" stroke-width="2.5"/>
+        </g>
+        <line id="hHand" x1="50" y1="50" x2="50" y2="29" stroke="#2b2d4a" stroke-width="6" stroke-linecap="round"/>
+        <line id="mHand" x1="50" y1="50" x2="50" y2="17" stroke="#d6453d" stroke-width="4" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="4.5" fill="#2b2d4a"/>
+      </svg>
+      <b id="clockTxt">20:00</b>
+    </div>
     <div id="window" class="abs">
       <div id="sky"></div>
       <i class="star" style="left:18%;top:20%">✦</i><i class="star" style="left:72%;top:14%;animation-delay:.7s">✦</i><i class="star" style="left:48%;top:34%;animation-delay:1.3s">✦</i><i class="star" style="left:84%;top:46%;animation-delay:.3s">✦</i><i class="star" style="left:26%;top:52%;animation-delay:1s">✦</i>
@@ -275,7 +292,7 @@
   ];
   const SLOTS = [{x:52,y:52},{x:70,y:52},{x:52,y:80},{x:70,y:80}];
   const BUBBLE = {
-    sleep: () => 'すぅ…すぅ…💤',
+    sleep: () => 'すぅ…💤',
     warn:  () => 'ん…？ うーん…',
     watch: () => 'じーっ！👀',
     away:  () => `${TOOLS[P.tool]?.say||'あれ？'} ${TOOLS[P.tool]?.emoji||''}`,
@@ -452,8 +469,18 @@
     const k = Math.min(1, Math.max(0, (p - .55) / .45));   // 朝焼けの度合い
     skyEl.style.background = `linear-gradient(${mix('#101a45', '#6a5aa8', k)},${mix('#24306b', '#ffb27a', k)})`;
     starEls.forEach(s => s.style.opacity = 1 - k);
+    setClock(p);
   }
-  setMoon(.3);
+  // 20:00 → 翌朝 8:00（12時間）を制限時間にあわせて進める
+  const hHand = $('#hHand'), mHand = $('#mHand'), clockTxt = $('#clockTxt');
+  function setClock(p){
+    const total = 20 * 60 + p * 720;                       // 分
+    hHand.style.transform = `rotate(${(total % 720) / 720 * 360}deg)`;
+    mHand.style.transform = `rotate(${(total % 60) * 6}deg)`;
+    const hh = Math.floor(total / 60) % 24, mm = Math.floor((total % 60) / 10) * 10;
+    clockTxt.textContent = String(hh).padStart(2, '0') + ':' + String(mm).padStart(2, '0');
+  }
+  setMoon(0);
 
   // ---- loop ----
   function frame(now){
