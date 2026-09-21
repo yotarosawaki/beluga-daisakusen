@@ -1,0 +1,37 @@
+/* 説明ページ・プライバシーポリシー共通 */
+:root{
+  --ink:#2b2d4a; --muted:#5b5f80; --card:#fffdf7; --line:#e3dfd2; --accent:#ff7a59; --sky:#3d7bd9; --bg1:#1c2447; --bg2:#3b3f7a;
+}
+*{box-sizing:border-box}
+html{background:var(--bg1)}
+body{
+  margin:0; min-height:100vh; color:var(--ink);
+  background:linear-gradient(var(--bg1),var(--bg2)) fixed;
+  font-family:"BIZ UDPGothic","Hiragino Maru Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
+  line-height:1.85;
+}
+.page{max-width:780px; margin:0 auto; padding:16px 16px 40px}
+.top{display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; justify-content:space-between; color:#fff; margin-bottom:14px}
+.top .logo{font-weight:800; font-size:1.15rem; color:#fff; text-decoration:none}
+.top nav{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:.92rem}
+.top nav a{color:#dfe6ff}
+.play{display:inline-block; background:var(--accent); color:#fff !important; font-weight:800; text-decoration:none; padding:8px 22px; border-radius:999px; box-shadow:0 4px 0 #c4452a}
+article{background:var(--card); border-radius:18px; padding:22px 22px 26px; box-shadow:0 8px 24px rgba(0,0,0,.3)}
+h1{font-size:1.6rem; margin:.1em 0 .5em; line-height:1.4; text-wrap:balance}
+h2{font-size:1.2rem; margin:1.8em 0 .5em; padding-bottom:.25em; border-bottom:3px solid var(--line)}
+h3{font-size:1.02rem; margin:1.2em 0 .3em}
+p{margin:.6em 0}
+ul,ol{padding-left:1.4em; margin:.5em 0}
+li{margin:.25em 0}
+a{color:var(--sky)}
+img.shot{display:block; max-width:100%; height:auto; border-radius:12px; margin:.6em 0}
+.figs{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:10px; margin:.8em 0}
+.figs figure{margin:0}
+.figs figcaption{font-size:.85rem; color:var(--muted); margin-top:.2em}
+table{border-collapse:collapse; width:100%; margin:.6em 0; font-size:.95rem}
+th,td{border:1px solid var(--line); padding:.4em .7em; text-align:left; vertical-align:top}
+th{background:#f4efe0}
+.note{background:#fff3d6; border-radius:10px; padding:.6em .9em; margin:1em 0; font-size:.95rem}
+.meta{color:var(--muted); font-size:.88rem}
+footer{color:#dfe6ff; text-align:center; font-size:.88rem; margin-top:22px}
+footer a{color:#dfe6ff; margin:0 8px}

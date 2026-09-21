@@ -11,9 +11,10 @@
     --ink:#2b2d4a; --card:#fffdf7; --accent:#ff7a59; --sky:#4fa8ff; --gold:#ffcf3f;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;height:100%}
+  html{background:#1c2447}
+  html,body{margin:0;min-height:100%}
   body{
-    background:linear-gradient(#1c2447,#3b3f7a);
+    background:linear-gradient(#1c2447,#3b3f7a) fixed;
     font-family:"BIZ UDPGothic","Hiragino Maru Gothic ProN","Yu Gothic UI","Meiryo",sans-serif;
     color:var(--ink); display:flex; justify-content:center; user-select:none; -webkit-user-select:none;
   }
@@ -172,6 +173,15 @@
   .tool.wait{filter:grayscale(.6)}
   .tool kbd{position:absolute;top:4px;left:8px;font-size:11px;opacity:.5}
   #hint{color:#dfe6ff;text-align:center;font-size:clamp(11px,2vw,15px);margin-top:10px;font-weight:700}
+  /* ゲーム下の説明・広告・リンク（ゲームの操作エリアから離して配置） */
+  #info{margin:56px 16px 0;padding:18px 20px;background:rgba(255,255,255,.1);border-radius:16px;color:#eef1ff;font-size:clamp(13px,2.2vw,15px);line-height:1.8;user-select:text;-webkit-user-select:text}
+  #info h2{margin:0 0 .4em;font-size:1.1em}
+  #info ul{padding-left:1.3em;margin:.5em 0}
+  #info a,#foot a{color:#ffd9a8}
+  #adArea{margin:40px 16px 0;text-align:center}
+  #adArea .adlabel{font-size:11px;color:#b8c0e6;margin-bottom:4px}
+  #foot{margin:32px 16px 0;text-align:center;font-size:13px;color:#b8c0e6;padding-bottom:24px}
+  #foot a{margin:0 10px}
 </style>
 </head>
 <body>
@@ -281,6 +291,27 @@
 
   <div id="tools"></div>
   <div id="hint">ママが「じーっ👀」と見ている時にベルーガを運ぶと、全部取り上げられちゃう！ パパの呼びかけで気をそらそう</div>
+
+  <section id="info">
+    <h2>ベルーガ大作戦について</h2>
+    <p>ママに取り上げられたぬいぐるみを、ママの目をぬすんで、自分の部屋に取り返す、無料のミニゲームです。ぬいぐるみの大きさ（小・中・大）で、ポイントが変わります。</p>
+    <ul>
+      <li>ぬいぐるみをタップすると、泥棒のかっこうの子どもが、そろりそろりと運びはじめます。</li>
+      <li>ママが「じーっ👀」と見ている時に運ぶと、見つかって、集めた分が全部取り上げられます。</li>
+      <li>かんたんモードは、パパがママを呼んで助けてくれます。難しいモードは、パパの助けなしです。</li>
+    </ul>
+    <p><a href="about.html">くわしい遊び方・攻略のコツを読む</a></p>
+  </section>
+
+  <div id="adArea" hidden>
+    <div class="adlabel">広告</div>
+    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5731689447517172" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  </div>
+
+  <nav id="foot">
+    <a href="about.html">遊び方・サイトについて</a><a href="privacy.html">プライバシーポリシー</a>
+    <p>© ベルーガ大作戦</p>
+  </nav>
 </div>
 
 <script>
@@ -324,6 +355,15 @@
   const LEVELS = { easy:{label:'かんたん', key:'beluga_rank_easy'}, hard:{label:'難しい', key:'beluga_rank_hard'} };
 
   const $ = s => document.querySelector(s);
+  // 広告専用枠：AdSense管理画面で作った「広告ユニットの data-ad-slot（数字）」をここに入れると表示される
+  const AD_SLOT = '';
+  if (AD_SLOT){
+    const area = $('#adArea');
+    area.querySelector('ins').dataset.adSlot = AD_SLOT;
+    area.hidden = false;
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+  }
+
   const dad = $('#dad'), dadBubble = $('#dadBubble'), storyEl = $('#story');
   const stage = $('#stage'), parentEl = $('#parent'), bubble = $('#bubble'), overlay = $('#overlay'), card = $('#card'), room = $('#room');
   const rand = (a,b) => a + Math.random()*(b-a);
