@@ -33,7 +33,11 @@
   #stage.shake{animation:shake .45s}
   @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
   .abs{position:absolute}
-  #window{left:60%;top:5%;width:15%;height:25%;background:#101a45;border:1cqw solid #c9a06a;border-radius:1.5cqw;font-size:4cqw;display:flex;align-items:center;justify-content:center}
+  #window{left:60%;top:5%;width:15%;height:25%;background:#101a45;border:1cqw solid #c9a06a;border-radius:1.5cqw;overflow:hidden}
+  #sky{position:absolute;inset:0;background:linear-gradient(#101a45,#24306b)}
+  #moon{position:absolute;font-size:4.6cqw;line-height:1;transform:translate(-50%,-50%);filter:drop-shadow(0 0 1cqw rgba(255,240,170,.7))}
+  .star{position:absolute;font-style:normal;font-size:1.5cqw;color:#fff6c8;animation:twinkle 1.6s infinite alternate}
+  @keyframes twinkle{from{opacity:.25}to{opacity:1}}
   #headboard{left:1%;top:24%;width:4%;height:72%;background:#8a5a3c;border-radius:1.5cqw}
   #bed{left:2.5%;top:36%;width:77%;height:60%;background:#e9efff;border-radius:2cqw;border-bottom:1.6cqw solid #b7c3ee}
   #parent{left:4%;top:12%;width:37%}
@@ -174,7 +178,11 @@
   </div>
 
   <div id="stage" data-state="sleep">
-    <div id="window" class="abs">🌙✨</div>
+    <div id="window" class="abs">
+      <div id="sky"></div>
+      <i class="star" style="left:18%;top:20%">✦</i><i class="star" style="left:72%;top:14%;animation-delay:.7s">✦</i><i class="star" style="left:48%;top:34%;animation-delay:1.3s">✦</i><i class="star" style="left:84%;top:46%;animation-delay:.3s">✦</i><i class="star" style="left:26%;top:52%;animation-delay:1s">✦</i>
+      <span id="moon">🌙</span>
+    </div>
     <div id="headboard" class="abs"></div>
     <div id="bed" class="abs"></div>
 
@@ -433,6 +441,20 @@
   }
   window.addEventListener('keydown', e => { if (e.target.tagName === 'INPUT') return; const i = '123'.indexOf(e.key); if (i >= 0) useTool(i); });
 
+  // ---- 窓の景色：月が昇って沈み、終わりが近づくと朝焼け ----
+  const moonEl = $('#moon'), skyEl = $('#sky'), starEls = document.querySelectorAll('.star');
+  const hex = h => [1,3,5].map(i => parseInt(h.slice(i, i+2), 16));
+  const mix = (a, b, k) => '#' + hex(a).map((v, i) => Math.round(v + (hex(b)[i] - v) * k).toString(16).padStart(2, '0')).join('');
+  function setMoon(p){            // p: 0(はじまり) → 1(おわり)
+    p = Math.min(1, Math.max(0, p));
+    moonEl.style.left = (14 + 72 * p) + '%';
+    moonEl.style.top  = (82 - 62 * Math.sin(Math.PI * p)) + '%';
+    const k = Math.min(1, Math.max(0, (p - .55) / .45));   // 朝焼けの度合い
+    skyEl.style.background = `linear-gradient(${mix('#101a45', '#6a5aa8', k)},${mix('#24306b', '#ffb27a', k)})`;
+    starEls.forEach(s => s.style.opacity = 1 - k);
+  }
+  setMoon(.3);
+
   // ---- loop ----
   function frame(now){
     requestAnimationFrame(frame);
@@ -468,6 +490,7 @@
     $('#time').textContent = Math.ceil(tt);
     $('#timebar i').style.width = (tt / GAME_TIME * 100) + '%';
     $('#timebar').classList.toggle('low', tt < 10);
+    setMoon(1 - tt / GAME_TIME);
     if (t <= 0) finish();
   }
   requestAnimationFrame(frame);
@@ -485,6 +508,7 @@
     cds.fill(0); carry = null; score = 0; t = GAME_TIME;
     $('#score').textContent = 0;
     setParent('sleep', 3);
+    setMoon(0);
     overlay.style.display = 'none';
     mode = 'play';
     beep(523,.1,'triangle'); beep(784,.15,'triangle',.07,.1);
