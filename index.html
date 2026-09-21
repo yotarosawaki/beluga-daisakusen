@@ -51,7 +51,9 @@
   .pupil{transition:transform .2s}
   [data-state=away] .pupil{transform:translate(-8px,-5px)}
   [data-state=watch] .pupil{transform:translate(6px,5px)}
-  [data-state=watch] #eyeglow{display:inline}
+  [data-state=watch] #eyeglow,[data-state=scold] #eyeglow{display:inline}
+  .puff{display:none}
+  [data-state=watch] .puff,[data-state=scold] .puff{display:inline}
   #eyeglow{display:none}
   #bubble{left:3%;top:3%;max-width:42%;background:#fff;color:var(--ink);border-radius:2cqw;padding:1cqw 2cqw;font-size:2.6cqw;font-weight:800;box-shadow:0 .4cqw 0 rgba(0,0,0,.15)}
   #bubble.warn{background:#fff3bf}
@@ -141,25 +143,33 @@
       <svg viewBox="0 0 360 300">
         <ellipse cx="180" cy="130" rx="155" ry="100" fill="#ffffff"/>
         <g class="head">
-          <circle cx="180" cy="125" r="68" fill="#ffd9b8"/>
-          <path d="M110 118 C106 46 254 46 250 118 C232 88 204 82 180 84 C156 82 128 88 110 118Z" fill="#5a3a2a"/>
-          <circle cx="140" cy="140" r="9" fill="#ff9eb5" opacity=".55"/>
-          <circle cx="220" cy="140" r="9" fill="#ff9eb5" opacity=".55"/>
-          <g class="brow-angry" stroke="#3b2418" stroke-width="7" stroke-linecap="round"><path d="M128 96 L166 108"/><path d="M232 96 L194 108"/></g>
-          <g class="brow-worry" stroke="#3b2418" stroke-width="6" stroke-linecap="round" fill="none"><path d="M130 100 Q148 88 166 98"/><path d="M230 100 Q212 88 194 98"/></g>
-          <g class="e-closed" stroke="#3b2418" stroke-width="6" stroke-linecap="round" fill="none"><path d="M132 124 Q148 136 166 124"/><path d="M194 124 Q212 136 228 124"/></g>
+          <path d="M104 118 C92 60 124 36 180 36 C236 36 268 60 256 118 C264 160 250 192 236 204 L124 204 C110 192 96 160 104 118Z" fill="#8a5a3e"/>
+          <circle cx="180" cy="30" r="22" fill="#8a5a3e"/>
+          <path d="M162 46 Q180 58 198 46 Q180 38 162 46Z" fill="#ff7fa3"/><ellipse cx="164" cy="46" rx="11" ry="8" fill="#ff7fa3"/><ellipse cx="196" cy="46" rx="11" ry="8" fill="#ff7fa3"/><circle cx="180" cy="46" r="5" fill="#ffc2d4"/>
+          <ellipse cx="180" cy="128" rx="68" ry="62" fill="#ffe3cf"/>
+          <path d="M114 114 C116 68 152 62 180 70 C208 62 244 68 246 114 C226 98 210 86 190 80 C176 98 146 106 114 114Z" fill="#8a5a3e"/>
+          <path d="M138 86 Q152 76 168 76" stroke="#b58060" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <ellipse cx="126" cy="148" rx="14" ry="9" fill="#ff9eb5" opacity=".6"/><ellipse cx="234" cy="148" rx="14" ry="9" fill="#ff9eb5" opacity=".6"/>
+          <g class="puff"><circle cx="120" cy="152" r="15" fill="#ffc2d0"/><circle cx="240" cy="152" r="15" fill="#ffc2d0"/><ellipse cx="126" cy="148" rx="11" ry="7" fill="#ff9eb5" opacity=".6"/><ellipse cx="234" cy="148" rx="11" ry="7" fill="#ff9eb5" opacity=".6"/></g>
+          <g class="brow-angry" stroke="#6b4530" stroke-width="5" stroke-linecap="round"><path d="M132 102 L166 108"/><path d="M228 102 L194 108"/></g>
+          <g class="brow-worry" stroke="#6b4530" stroke-width="4.5" stroke-linecap="round" fill="none"><path d="M132 106 Q148 96 166 104"/><path d="M228 106 Q212 96 194 104"/></g>
+          <g class="e-closed" stroke="#4a2c1e" stroke-width="5" stroke-linecap="round" fill="none"><path d="M133 131 Q148 144 163 131"/><path d="M197 131 Q212 144 227 131"/><path d="M133 131 L127 126"/><path d="M227 131 L233 126"/></g>
           <g class="e-half">
-            <ellipse cx="149" cy="124" rx="15" ry="7" fill="#fff" stroke="#3b2418" stroke-width="3"/><circle cx="149" cy="125" r="5" fill="#3b2418"/>
-            <ellipse cx="211" cy="124" rx="15" ry="7" fill="#fff" stroke="#3b2418" stroke-width="3"/><circle cx="211" cy="125" r="5" fill="#3b2418"/>
+            <ellipse cx="148" cy="134" rx="13" ry="14" fill="#4a2c1e"/><ellipse cx="212" cy="134" rx="13" ry="14" fill="#4a2c1e"/>
+            <circle cx="143" cy="130" r="4" fill="#fff"/><circle cx="207" cy="130" r="4" fill="#fff"/>
+            <rect x="130" y="112" width="36" height="20" fill="#ffe3cf"/><rect x="194" y="112" width="36" height="20" fill="#ffe3cf"/>
+            <g stroke="#4a2c1e" stroke-width="5" stroke-linecap="round" fill="none"><path d="M132 132 Q148 138 164 132"/><path d="M196 132 Q212 138 228 132"/></g>
           </g>
           <g class="e-open">
-            <ellipse cx="149" cy="124" rx="16" ry="18" fill="#fff" stroke="#3b2418" stroke-width="3"/><circle class="pupil" cx="149" cy="126" r="8" fill="#3b2418"/>
-            <ellipse cx="211" cy="124" rx="16" ry="18" fill="#fff" stroke="#3b2418" stroke-width="3"/><circle class="pupil" cx="211" cy="126" r="8" fill="#3b2418"/>
-            <g id="eyeglow" stroke="#ff4d4d" stroke-width="4" stroke-linecap="round"><path d="M116 96 L104 86"/><path d="M244 96 L256 86"/><path d="M180 66 L180 52"/></g>
+            <g class="pupil"><ellipse cx="148" cy="130" rx="15" ry="18" fill="#4a2c1e"/><circle cx="142" cy="123" r="6" fill="#fff"/><circle cx="154" cy="137" r="3" fill="#fff"/></g>
+            <g class="pupil"><ellipse cx="212" cy="130" rx="15" ry="18" fill="#4a2c1e"/><circle cx="206" cy="123" r="6" fill="#fff"/><circle cx="218" cy="137" r="3" fill="#fff"/></g>
+            <g stroke="#4a2c1e" stroke-width="4" stroke-linecap="round" fill="none"><path d="M130 118 Q148 106 166 118"/><path d="M194 118 Q212 106 230 118"/></g>
           </g>
-          <g class="m-o"><ellipse cx="180" cy="164" rx="8" ry="6" fill="#c0584a"/></g>
-          <g class="m-flat"><path d="M164 166 L196 166" stroke="#a0403a" stroke-width="6" stroke-linecap="round"/></g>
-          <g class="m-big"><ellipse cx="180" cy="168" rx="16" ry="12" fill="#a0403a"/></g>
+          <path d="M176 148 Q180 152 184 148" stroke="#e0a888" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <g id="eyeglow"><text x="222" y="76" font-size="36">💢</text></g>
+          <g class="m-o"><path d="M172 162 Q180 172 188 162" stroke="#d0606a" stroke-width="4" fill="#ff9aa8" stroke-linecap="round"/></g>
+          <g class="m-flat"><path d="M168 166 Q174 158 180 166 Q186 158 192 166" stroke="#d0606a" stroke-width="4.5" fill="none" stroke-linecap="round"/></g>
+          <g class="m-big"><ellipse cx="180" cy="168" rx="11" ry="9" fill="#d0606a"/><ellipse cx="180" cy="172" rx="6" ry="4" fill="#ff9aa8"/></g>
         </g>
         <path d="M14 196 C70 170 130 176 180 190 C230 176 290 170 346 196 L356 300 L4 300Z" fill="#ff9eb5"/>
         <path d="M40 220 Q180 200 320 220 M30 250 Q180 232 330 250" stroke="#ffc4d3" stroke-width="8" fill="none" stroke-linecap="round"/>
