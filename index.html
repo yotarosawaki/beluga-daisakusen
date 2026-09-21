@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>ベルーガ だいさくせん</title>
+<title>ベルーガ大作戦</title>
 <style>
   :root{
     --ink:#2b2d4a; --card:#fffdf7; --accent:#ff7a59; --sky:#4fa8ff; --gold:#ffcf3f;
@@ -39,7 +39,7 @@
   #parent{left:4%;top:12%;width:37%}
   #parent svg{width:100%;display:block;overflow:visible}
   .head{transform-origin:180px 140px;transition:transform .35s}
-  [data-state=away] .head{transform:rotate(-9deg) translateX(-8px)}
+  [data-state=away] .head{transform:rotate(9deg) translateX(8px)}
   [data-state=watch] .head{transform:rotate(3deg)}
   .e-closed,.e-half,.e-open,.brow-angry,.brow-worry,.m-o,.m-flat,.m-big{display:none}
   [data-state=sleep] .e-closed,[data-state=warn] .e-half,[data-state=watch] .e-open,[data-state=away] .e-open,[data-state=scold] .e-open{display:inline}
@@ -49,7 +49,7 @@
   [data-state=warn] .m-flat,[data-state=watch] .m-flat{display:inline}
   [data-state=scold] .m-big{display:inline}
   .pupil{transition:transform .2s}
-  [data-state=away] .pupil{transform:translate(-8px,-5px)}
+  [data-state=away] .pupil{transform:translate(9px,-6px)}
   [data-state=watch] .pupil{transform:translate(6px,5px)}
   [data-state=watch] #eyeglow,[data-state=scold] #eyeglow{display:inline}
   .puff{display:none}
@@ -80,6 +80,27 @@
   @keyframes step{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
   @keyframes sneak{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-.8cqw) rotate(3deg)}}
   .sneak{position:absolute;top:-2.4cqw;left:-1cqw;font-size:1.7cqw;font-weight:900;color:#fff;text-shadow:0 .2cqw 0 #000;white-space:nowrap}
+  /* パパ */
+  #dad{left:66%;top:3%;width:13cqw;opacity:0;transform:translateX(30%);transition:opacity .25s,transform .25s;pointer-events:none;z-index:4}
+  #dad.show{opacity:1;transform:none}
+  #dad svg{width:100%;display:block;overflow:visible}
+  .dadarm{transform-origin:30px 118px;animation:wave .3s infinite alternate}
+  @keyframes wave{from{transform:rotate(-16deg)}to{transform:rotate(14deg)}}
+  #dadBubble{position:absolute;right:92%;top:1cqw;width:28cqw;background:#e3f0ff;color:var(--ink);border-radius:2cqw;padding:.8cqw 1.4cqw;font-size:2.3cqw;font-weight:800;line-height:1.35;box-shadow:0 .4cqw 0 rgba(0,0,0,.15)}
+  #dadBubble::after{content:"";position:absolute;right:-1.2cqw;top:2.2cqw;border:.8cqw solid transparent;border-left:1.4cqw solid #e3f0ff;border-right:0}
+  /* オープニング */
+  #story{position:absolute;inset:0;z-index:30;background:linear-gradient(#26305e,#4b3d75);display:none;overflow:hidden}
+  #story>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;animation:fadein .7s}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  #story .teaser{position:absolute;inset:0 0 34% 0;display:flex;align-items:flex-end;justify-content:center;gap:3cqw;padding-bottom:3cqw}
+  #story .tz{display:block;filter:drop-shadow(0 .8cqw .6cqw rgba(0,0,0,.3));animation:bob 1.2s infinite alternate}
+  #story .tz svg{width:100%;display:block}
+  #story .tz.s{width:12cqw}#story .tz.m{width:17cqw;animation-delay:.2s}#story .tz.l{width:24cqw;animation-delay:.4s}
+  @keyframes bob{from{transform:translateY(0)}to{transform:translateY(-1.2cqw)}}
+  #story .cap{position:absolute;left:0;right:0;bottom:0;padding:6cqw 4cqw 2.4cqw;background:linear-gradient(transparent,rgba(25,18,10,.9) 45%);color:#fff;text-align:center}
+  #story .txt{font-size:3.2cqw;font-weight:800;line-height:1.55;white-space:pre-line;text-shadow:0 .2cqw .5cqw #000}
+  #story .cap .big{font-size:2.5cqw;padding:.7cqw 3.6cqw;margin-top:1.2cqw}
+  #story .skip{position:absolute;top:2cqw;right:2cqw;font-family:inherit;font-weight:800;font-size:1.9cqw;color:#fff;background:rgba(0,0,0,.45);border:none;border-radius:999px;padding:.6cqw 1.8cqw;cursor:pointer}
   /* ランキング */
   .rank{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(5,auto);grid-auto-flow:column;gap:.4cqw 2.4cqw;margin:1.2cqw 0;text-align:left;font-size:2.1cqw;font-weight:800}
   .row{display:flex;gap:1cqw;padding:.3cqw 1cqw;border-radius:1cqw;min-width:24cqw}
@@ -175,18 +196,35 @@
     </div>
     <div id="bubble" class="abs">すぅ…すぅ…💤</div>
 
+    <div id="dad" class="abs">
+      <div id="dadBubble"></div>
+      <svg viewBox="0 0 120 150">
+        <path d="M18 150 C18 112 38 102 60 102 C82 102 102 112 102 150Z" fill="#4c78c9"/>
+        <rect x="52" y="90" width="16" height="16" rx="6" fill="#ffd9b8"/>
+        <circle cx="60" cy="62" r="32" fill="#ffd9b8"/>
+        <path d="M27 58 C24 22 96 22 93 58 C86 44 72 38 60 38 C48 38 34 44 27 58Z" fill="#2b2020"/>
+        <ellipse cx="38" cy="76" rx="6" ry="4" fill="#ff9eb5" opacity=".6"/><ellipse cx="82" cy="76" rx="6" ry="4" fill="#ff9eb5" opacity=".6"/>
+        <g fill="none" stroke="#333" stroke-width="2.6"><circle cx="47" cy="64" r="9"/><circle cx="73" cy="64" r="9"/><path d="M56 64 L64 64"/></g>
+        <circle cx="47" cy="65" r="3" fill="#2b2020"/><circle cx="73" cy="65" r="3" fill="#2b2020"/>
+        <path d="M42 50 L54 53 M78 50 L66 53" stroke="#2b2020" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="60" cy="86" rx="9" ry="7" fill="#c0584a"/>
+        <g class="dadarm"><path d="M30 118 L10 80" stroke="#4c78c9" stroke-width="15" stroke-linecap="round"/><circle cx="8" cy="74" r="9" fill="#ffd9b8"/></g>
+      </svg>
+    </div>
+
     <div id="door" class="abs">
-      <div id="doorsign">🚪 じぶんのへや</div>
+      <div id="doorsign">🚪 自分の部屋</div>
       <div id="room"></div>
     </div>
 
     <div id="overlay">
       <div id="card"></div>
     </div>
+    <div id="story"></div>
   </div>
 
   <div id="tools"></div>
-  <div id="hint">おやが「じーっ👀」とみているときにベルーガをはこぶと、みつかっちゃう！ どうぐで きをそらそう</div>
+  <div id="hint">ママが「じーっ👀」と見ている時にベルーガを運ぶと、全部取り上げられちゃう！ パパの呼びかけで気をそらそう</div>
 </div>
 
 <script>
@@ -194,9 +232,9 @@
   const GAME_TIME = 60;
   const SIZES = { s:{pts:1, need:0.8, label:'ちいさい'}, m:{pts:3, need:1.8, label:'ふつう'}, l:{pts:5, need:3.0, label:'おおきい'} };
   const TOOLS = [
-    { emoji:'🍺', name:'ビールだよ',         say:'ビール！？', dur:1.5, cd:7 },
-    { emoji:'📺', name:'VIVANTはじまるよ',   say:'VIVANT！？', dur:2.5, cd:12 },
-    { emoji:'🧘', name:'ヨガのじかんだよ',   say:'ヨガのじかん！？', dur:3.5, cd:20 },
+    { emoji:'🍺', name:'ビールだよ',       say:'ビール！？',     call:'ママー！ ビールだよー！🍺',        dur:1.5, cd:7 },
+    { emoji:'📺', name:'VIVANT始まるよ',   say:'VIVANT！？',     call:'ママー！ VIVANT始まるよー！📺',    dur:2.5, cd:12 },
+    { emoji:'🧘', name:'ヨガの時間だよ',   say:'ヨガの時間！？', call:'ママー！ ヨガの時間だよー！🧘',    dur:3.5, cd:20 },
   ];
   const SLOTS = [{x:52,y:52},{x:70,y:52},{x:52,y:80},{x:70,y:80}];
   const BUBBLE = {
@@ -204,7 +242,7 @@
     warn:  () => 'ん…？ うーん…',
     watch: () => 'じーっ！👀',
     away:  () => `${TOOLS[P.tool]?.say||'あれ？'} ${TOOLS[P.tool]?.emoji||''}`,
-    scold: () => 'こらっ！ ねなさい！',
+    scold: () => 'こらっ！ 寝なさい！',
   };
   const BELUGA_SVG = (() => {
     const shapes = `<ellipse cx="62" cy="42" rx="46" ry="26"/><ellipse cx="96" cy="32" rx="19" ry="17"/><path d="M22 38 C10 40 4 30 2 20 C12 22 18 26 28 32Z"/><path d="M22 44 C10 48 4 58 4 64 C14 60 20 54 30 48Z"/>`;
@@ -227,9 +265,10 @@
     </svg>`;
   const DOOR = { x:90, y:72 };
   const NAME_KEY = 'beluga_name';
-  const LEVELS = { easy:{label:'かんたん', key:'beluga_rank_easy'}, hard:{label:'むずかしい', key:'beluga_rank_hard'} };
+  const LEVELS = { easy:{label:'かんたん', key:'beluga_rank_easy'}, hard:{label:'難しい', key:'beluga_rank_hard'} };
 
   const $ = s => document.querySelector(s);
+  const dad = $('#dad'), dadBubble = $('#dadBubble'), storyEl = $('#story');
   const stage = $('#stage'), parentEl = $('#parent'), bubble = $('#bubble'), overlay = $('#overlay'), card = $('#card'), room = $('#room');
   const rand = (a,b) => a + Math.random()*(b-a);
   const pickSize = () => { const r = Math.random(); return r < .5 ? 's' : r < .82 ? 'm' : 'l'; };
@@ -261,6 +300,8 @@
     stage.classList.toggle('danger', s === 'watch');
     bubble.textContent = BUBBLE[s]();
     bubble.className = 'abs ' + s;
+    if (s === 'away') dadBubble.textContent = TOOLS[P.tool].call;
+    dad.classList.toggle('show', s === 'away');
   }
   function nextParent(){
     const f = Math.min(1, Math.max(0, (GAME_TIME - t) / GAME_TIME));
@@ -326,8 +367,8 @@
     if (score > 0){
       score = 0; $('#score').textContent = 0;
       room.innerHTML = '';
-      pop('ぜんぶ とりあげられた…！', 45, 40, '#ff8787');
-    } else pop('みつかった！', 45, 40, '#ff8787');
+      pop('全部 取り上げられた…！', 45, 40, '#ff8787');
+    } else pop('見つかった！', 45, 40, '#ff8787');
     stage.classList.remove('shake'); void stage.offsetWidth; stage.classList.add('shake');
     setParent('scold', 1.6);
     beep(150,.4,'sawtooth',.08);
@@ -338,10 +379,11 @@
   TOOLS.forEach((tl,i) => {
     const b = document.createElement('button');
     b.className = 'tool';
-    b.innerHTML = `<kbd>${i+1}</kbd><span class="e">${tl.emoji}</span><b>${tl.name}</b><small>${tl.dur}びょう そらす／${tl.cd}びょうまち</small><i class="cd"></i>`;
+    b.innerHTML = `<kbd>${i+1}</kbd><span class="e">${tl.emoji}</span><b>${tl.name}</b><small>${tl.dur}秒 気をそらす／${tl.cd}秒待ち</small><i class="cd"></i>`;
     b.addEventListener('pointerdown', e => { e.preventDefault(); useTool(i); });
     toolsEl.appendChild(b);
   });
+  toolsEl.style.display = 'none';   // ゲーム開始まで隠す
   function useTool(i){
     if (mode !== 'play' || level !== 'easy' || cds[i] > 0) return;
     const tl = TOOLS[i];
@@ -397,8 +439,8 @@
     level = lv === 'hard' ? 'hard' : 'easy';
     toolsEl.style.display = level === 'easy' ? 'grid' : 'none';
     $('#hint').textContent = level === 'easy'
-      ? 'おやが「じーっ👀」とみているときにベルーガをはこぶと、ぜんぶ とりあげられちゃう！ どうぐで きをそらそう'
-      : '【むずかしい】どうぐは つかえない！ おやが「ん…？」と なったら すぐタップで とまろう。みつかると ぜんぶ とりあげられるよ';
+      ? 'ママが「じーっ👀」と見ている時にベルーガを運ぶと、全部取り上げられちゃう！ パパの呼びかけで気をそらそう'
+      : '【難しい】パパの助けなし！ ママが「ん…？」となったらすぐタップで止まろう。見つかると全部取り上げられるよ';
     slots.forEach(s => { s.el && s.el.remove(); s.alive = false; s.el = null; s.rt = 0; });
     room.innerHTML = '';
     slots.forEach(makeBeluga);
@@ -411,9 +453,9 @@
   }
   function rank(s){
     if (s >= 40) return ['🏆','ベルーガマスター！'];
-    if (s >= 25) return ['🥷','ベルーガにんじゃ！'];
-    if (s >= 12) return ['🐳','ベルーガみならい'];
-    return ['🌊','もういっかい ちょうせん！'];
+    if (s >= 25) return ['🥷','ベルーガ忍者！'];
+    if (s >= 12) return ['🐳','ベルーガ見習い'];
+    return ['🌊','もう一回チャレンジ！'];
   }
   // ---- ranking (この端末の中に保存) ----
   const loadRank = lv => {
@@ -452,15 +494,15 @@
     [523,659,784,1046].forEach((f,i) => beep(f,.2,'triangle',.06,i*.12));
     const [ic, title] = rank(score);
     const lv = level, top = loadRank(lv)[0];
-    const head = `<h1>${ic} ${title}</h1><p>【${LEVELS[lv].label}】ベルーガを ${score} ポイント つれてこれたよ！${top && score > top.score ? ' 🎉 1いだ！' : ''}</p>`;
+    const head = `<h1>${ic} ${title}</h1><p>【${LEVELS[lv].label}】ベルーガを ${score} ポイント 取り返したよ！${top && score > top.score ? ' 🎉 1位！' : ''}</p>`;
     overlay.style.display = 'flex';
     if (!qualifies(lv, score)) return showResult(head, lv, -1);
 
     let last = ''; try { last = localStorage.getItem(NAME_KEY) || ''; } catch(e){}
-    card.innerHTML = `${head}<p>ランキングに のったよ！ なまえを いれてね</p>
-      <input id="nameIn" maxlength="8" placeholder="あだな">
-      <p class="small">ほんとうのなまえや じゅうしょは いれないでね</p>
-      <button class="big" id="regBtn">とうろく</button>`;
+    card.innerHTML = `${head}<p>ランキングに入ったよ！ 名前を入れてね</p>
+      <input id="nameIn" maxlength="8" placeholder="あだ名">
+      <p class="small">本当の名前や住所は入れないでね</p>
+      <button class="big" id="regBtn">登録</button>`;
     const inp = $('#nameIn'); inp.value = last;
     const reg = () => {
       const name = inp.value.trim().slice(0,8) || 'ななしさん';
@@ -471,31 +513,52 @@
     inp.addEventListener('keydown', e => { if (e.key === 'Enter') reg(); });
   }
   function showResult(head, lv, hi){
-    card.innerHTML = `${head}<div id="rk"></div><div class="btns"><button class="big" id="againBtn">もういっかい</button><button class="big sub" id="menuBtn">タイトルへ</button></div>`;
+    card.innerHTML = `${head}<div id="rk"></div><div class="btns"><button class="big" id="againBtn">もう一回</button><button class="big sub" id="menuBtn">タイトルへ</button></div>`;
     $('#rk').appendChild(rankEl(lv, hi));
     $('#againBtn').onclick = () => start(lv);
     $('#menuBtn').onclick = title;
   }
   function showRanking(lv = 'easy'){
     card.innerHTML = `<h1>🏆 ランキング</h1>
-      <div class="btns"><button class="tab${lv==='easy'?' on':''}" data-lv="easy">かんたん</button><button class="tab${lv==='hard'?' on':''}" data-lv="hard">むずかしい</button></div>
+      <div class="btns"><button class="tab${lv==='easy'?' on':''}" data-lv="easy">かんたん</button><button class="tab${lv==='hard'?' on':''}" data-lv="hard">難しい</button></div>
       <div id="rk"></div><button class="big sub" id="backBtn">もどる</button>`;
     $('#rk').appendChild(rankEl(lv, -1));
     card.querySelectorAll('.tab').forEach(b => b.onclick = () => showRanking(b.dataset.lv));
     $('#backBtn').onclick = title;
   }
   function title(){
-    card.innerHTML = `<h1>🐳 ベルーガ だいさくせん</h1>
-      <p>ねているおやから、ベルーガのぬいぐるみを<br>そーっと じぶんのへやに つれていこう！</p>
-      <p>👆 ベルーガを タップで はこびはじめ<br>👀 おやが「じーっ」のときは ぜったいダメ！<br>😱 みつかると あつめたベルーガが ぜんぶ とりあげられる！</p>
-      <p>⭐ ちいさい=1　⭐ ふつう=3　⭐ おおきい=5</p>
-      <div class="btns"><button class="big" id="easyBtn">🍺 かんたん<br><span class="small">どうぐが つかえる</span></button><button class="big hard" id="hardBtn">🔥 むずかしい<br><span class="small">どうぐなし</span></button></div>
-      <button class="big sub" id="rankBtn" style="font-size:2.2cqw">🏆 ランキング</button>`;
+    card.innerHTML = `<h1>🐳 ベルーガ大作戦</h1>
+      <p>寝ているママの目をぬすんで、<br>ぬいぐるみを自分の部屋に運ぼう！</p>
+      <p>👆 ベルーガをタップで運びはじめ<br>👀 ママが「じーっ」と見ている時は絶対ダメ！<br>😱 見つかると集めたベルーガが全部取り上げられる！</p>
+      <p>⭐ 小=1　⭐ 中=3　⭐ 大=5</p>
+      <div class="btns"><button class="big" id="easyBtn">🍺 かんたん<br><span class="small">パパが呼んでくれる</span></button><button class="big hard" id="hardBtn">🔥 難しい<br><span class="small">パパの助けなし</span></button></div>
+      <div class="btns"><button class="big sub" id="rankBtn" style="font-size:2.2cqw">🏆 ランキング</button><button class="big sub" id="storyBtn" style="font-size:2.2cqw">📖 ものがたり</button></div>`;
     $('#easyBtn').onclick = () => start('easy');
     $('#hardBtn').onclick = () => start('hard');
     $('#rankBtn').onclick = () => showRanking();
+    $('#storyBtn').onclick = () => story();
   }
-  title();
+
+  // ---- オープニングストーリー ----
+  const STORY = [
+    { img:'images/opening-belugas.jpg', text:'いつも姉妹ゲンカをして、\nぬいぐるみになぐさめてもらっていました。' },
+    { img:'images/opening-fight.jpg',   text:'今日もケンカをしていたら…\nママに、全部のぬいぐるみを取られてしまいました！' },
+    { img:null,                          text:'さあ、大変！\nママの目をぬすんで、ぬいぐるみを取り返そう！' },
+  ];
+  function story(i = 0){
+    const s = STORY[i], last = i === STORY.length - 1;
+    storyEl.style.display = 'block';
+    storyEl.innerHTML = (s.img
+      ? `<img src="${s.img}" alt="">`
+      : `<div class="teaser">${['s','m','l'].map(z => `<span class="tz ${z}">${BELUGA_SVG}</span>`).join('')}</div>`)
+      + `<button class="skip" id="skipBtn">スキップ ▶▶</button>
+         <div class="cap"><div class="txt"></div><button class="big" id="nextBtn">${last ? 'ゲームへ！' : 'つぎへ ▶'}</button></div>`;
+    storyEl.querySelector('.txt').textContent = s.text;
+    const close = () => { storyEl.style.display = 'none'; storyEl.innerHTML = ''; title(); };
+    $('#skipBtn').onclick = close;
+    $('#nextBtn').onclick = () => last ? close() : story(i + 1);
+  }
+  story();
 })();
 </script>
 </body>
