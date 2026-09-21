@@ -179,7 +179,9 @@
   #info ul{padding-left:1.3em;margin:.5em 0}
   #info a,#foot a{color:#ffd9a8}
   #adArea{margin:40px 16px 0;text-align:center}
-  #adArea .adlabel{font-size:11px;color:#b8c0e6;margin-bottom:4px}
+  #adArea .adlabel{display:none;font-size:11px;color:#b8c0e6;margin-bottom:4px}
+  #adArea:has(ins[data-ad-status="filled"]) .adlabel{display:block}   /* 広告が入った時だけ「広告」表示 */
+  #adArea ins[data-ad-status="unfilled"]{display:none !important}      /* 広告がない時は場所を取らない */
   #foot{margin:32px 16px 0;text-align:center;font-size:13px;color:#b8c0e6;padding-bottom:24px}
   #foot a{margin:0 10px}
 </style>
@@ -356,7 +358,7 @@
 
   const $ = s => document.querySelector(s);
   // 広告専用枠：AdSense管理画面で作った「広告ユニットの data-ad-slot（数字）」をここに入れると表示される
-  const AD_SLOT = '';
+  const AD_SLOT = '8983018192';   // 広告ユニット「ベルーガ_TOP」
   if (AD_SLOT){
     const area = $('#adArea');
     area.querySelector('ins').dataset.adSlot = AD_SLOT;
