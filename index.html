@@ -364,7 +364,11 @@
     const area = $('#adArea');
     area.querySelector('ins').dataset.adSlot = AD_SLOT;
     area.hidden = false;
-    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){}
+    try {
+      window.adsbygoogle = window.adsbygoogle || [];
+      window.adsbygoogle.requestNonPersonalizedAds = 1;   // 子ども向けのため、パーソナライズ広告は使わない
+      window.adsbygoogle.push({});
+    } catch(e){}
   }
 
   const dad = $('#dad'), dadBubble = $('#dadBubble'), storyEl = $('#story');
