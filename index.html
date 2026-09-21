@@ -80,6 +80,19 @@
   @keyframes step{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
   @keyframes sneak{from{transform:translateY(0) rotate(-3deg)}to{transform:translateY(-.8cqw) rotate(3deg)}}
   .sneak{position:absolute;top:-2.4cqw;left:-1cqw;font-size:1.7cqw;font-weight:900;color:#fff;text-shadow:0 .2cqw 0 #000;white-space:nowrap}
+  /* にやっ演出 */
+  #grin{position:absolute;left:50%;top:38%;width:11cqw;transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;z-index:6}
+  #grin svg{width:100%;display:block;filter:drop-shadow(0 .5cqw .4cqw rgba(0,0,0,.35))}
+  #grin.on{animation:grinpop 1.4s ease-out}
+  @keyframes grinpop{
+    0%{transform:translate(-50%,-50%) scale(0) rotate(-12deg);opacity:0}
+    18%{transform:translate(-50%,-50%) scale(1.2) rotate(5deg);opacity:1}
+    30%{transform:translate(-50%,-50%) scale(1) rotate(-2deg)}
+    80%{transform:translate(-50%,-50%) scale(1.04) rotate(2deg);opacity:1}
+    100%{transform:translate(-50%,-50%) scale(1) rotate(0);opacity:0}}
+  #grinTxt{position:absolute;left:50%;top:104%;transform:translateX(-50%);white-space:nowrap;font-size:2.6cqw;font-weight:900;color:#fff;-webkit-text-stroke:.5cqw #2b2d4a;paint-order:stroke fill;text-shadow:0 .3cqw 0 rgba(0,0,0,.3)}
+  .spk{position:absolute;font-style:normal;font-size:2.6cqw}
+  .spk.s1{left:-14%;top:4%}.spk.s2{right:-12%;top:-8%}
   /* パパ */
   #dad{left:1%;top:3%;width:12cqw;opacity:0;transform:translateX(-30%);transition:opacity .25s,transform .25s;pointer-events:none;z-index:4}
   #dad.show{opacity:1;transform:none}
@@ -215,6 +228,17 @@
     <div id="door" class="abs">
       <div id="doorsign">🚪 自分の部屋</div>
       <div id="room"></div>
+      <div id="grin">
+        <svg viewBox="0 0 60 64">
+          <path d="M8 26 Q30 -4 52 26 Z" fill="#222"/><circle cx="30" cy="4" r="4.5" fill="#e03131"/><rect x="6" y="24" width="48" height="6" rx="3" fill="#444"/>
+          <ellipse cx="30" cy="40" rx="20" ry="19" fill="#ffd9b8"/>
+          <circle cx="13" cy="51" r="4.5" fill="#ff9eb5" opacity=".7"/><circle cx="47" cy="51" r="4.5" fill="#ff9eb5" opacity=".7"/>
+          <rect x="9" y="34" width="42" height="11" rx="5.5" fill="#111"/>
+          <g stroke="#fff" stroke-width="2.8" fill="none" stroke-linecap="round"><path d="M15 41 Q20.5 34 26 41"/><path d="M34 41 Q39.5 34 45 41"/></g>
+          <path d="M16 50 Q30 66 44 50 Q30 54 16 50Z" fill="#fff" stroke="#8a3a2a" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        <span id="grinTxt">にやっ</span><i class="spk s1">✨</i><i class="spk s2">✨</i>
+      </div>
     </div>
 
     <div id="overlay">
@@ -340,8 +364,16 @@
     setTimeout(() => el.remove(), 550);
     pop(`+${pts}⭐`, slot.x, slot.y - 12, '#ffe066');
     addToRoom(slot.size);
+    setTimeout(() => showGrin(slot.size), 350);
     [660,880,1100].forEach((f,i) => beep(f,.14,'triangle',.06,i*.08));
     $('#score').textContent = score;
+  }
+  // ベルーガを部屋に入れた子どもが「にやっ」とする（大きいほど大にやけ）
+  const GRIN_TEXT = { s:'にやっ', m:'にやり…', l:'にやにやっ！' };
+  function showGrin(size){
+    const g = $('#grin');
+    $('#grinTxt').textContent = GRIN_TEXT[size];
+    g.classList.remove('on'); void g.offsetWidth; g.classList.add('on');
   }
   function addToRoom(size){
     const s = document.createElement('div');
