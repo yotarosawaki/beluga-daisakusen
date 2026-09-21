@@ -186,9 +186,9 @@
   const GAME_TIME = 60;
   const SIZES = { s:{pts:1, need:0.8, label:'ちいさい'}, m:{pts:3, need:1.8, label:'ふつう'}, l:{pts:5, need:3.0, label:'おおきい'} };
   const TOOLS = [
-    { emoji:'🔔', name:'おもちゃのすず', dur:2.2, cd:3 },
-    { emoji:'📱', name:'スマホのおと',   dur:3.8, cd:6 },
-    { emoji:'🐱', name:'ねこのなきごえ', dur:5.5, cd:10 },
+    { emoji:'🔔', name:'おもちゃのすず', dur:1.5, cd:7 },
+    { emoji:'📱', name:'スマホのおと',   dur:2.5, cd:12 },
+    { emoji:'🐱', name:'ねこのなきごえ', dur:3.5, cd:20 },
   ];
   const SLOTS = [{x:52,y:52},{x:70,y:52},{x:52,y:80},{x:70,y:80}];
   const BUBBLE = {
@@ -330,7 +330,7 @@
   TOOLS.forEach((tl,i) => {
     const b = document.createElement('button');
     b.className = 'tool';
-    b.innerHTML = `<kbd>${i+1}</kbd><span class="e">${tl.emoji}</span><b>${tl.name}</b><small>${tl.dur}びょう そらす</small><i class="cd"></i>`;
+    b.innerHTML = `<kbd>${i+1}</kbd><span class="e">${tl.emoji}</span><b>${tl.name}</b><small>${tl.dur}びょう そらす／${tl.cd}びょうまち</small><i class="cd"></i>`;
     b.addEventListener('pointerdown', e => { e.preventDefault(); useTool(i); });
     toolsEl.appendChild(b);
   });
